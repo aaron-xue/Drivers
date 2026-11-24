@@ -37,20 +37,14 @@ A810_NEW_GPUID = (
 )
 
 A810_OLD_PROPS = (
-    "[a7xx_base, a7xx_gen3, a8xx_base, a8xx_gen1, GPUProps(\n"
-    "            gmem_vpc_attr_buf_size = 16384,\n"
-    "            gmem_vpc_pos_buf_size = 12288,\n"
-    "            gmem_vpc_bv_pos_buf_size = 20480,\n"
+    "[a7xx_base, a7xx_gen3, a8xx_base, a8xx_gen1, a8xx_vpc_cache_sm, GPUProps(\n"
     "            # This is possibly also needed for a830 (and all of a8xx),\n"
     "            # move to a8xx_base if confirmed needed for a830.\n"
     "            has_fs_tex_prefetch = False,\n"
     "        )]"
 )
 A810_NEW_PROPS = (
-    "[a7xx_base, a7xx_gen3, a8xx_base, a8xx_gen1, GPUProps(\n"
-    "            gmem_vpc_attr_buf_size = 16384,\n"
-    "            gmem_vpc_pos_buf_size = 12288,\n"
-    "            gmem_vpc_bv_pos_buf_size = 20480,\n"
+    "[a7xx_base, a7xx_gen3, a8xx_base, a8xx_gen1, a8xx_vpc_cache_sm, GPUProps(\n"
     "            # This is possibly also needed for a830 (and all of a8xx),\n"
     "            # move to a8xx_base if confirmed needed for a830.\n"
     "            has_fs_tex_prefetch = False,\n"
@@ -82,25 +76,27 @@ else:
 
 A829_LOCATE = "GPUId(chip_id=0x44030a20"
 
-A829_OLD_GPUID = '        GPUId(chip_id=0x44030a20, name="Adreno (TM) 829"), # KGSL\n'
+A829_OLD_GPUID = (
+    '        GPUId(chip_id=0xffff44030a20, name="Adreno (TM) 829"),\n'
+    '        GPUId(chip_id=0x44030a20, name="Adreno (TM) 829"), # KGSL\n'
+)
 A829_NEW_GPUID = (
-    '        GPUId(chip_id=0x44030A00, name="Adreno (TM) 829"), # KGSL\n'
+    '        GPUId(chip_id=0xffff44030a20, name="Adreno (TM) 829"),\n'
     '        GPUId(chip_id=0xffff44030A00, name="Adreno (TM) 829"), # KGSL fallback\n'
+    '        GPUId(chip_id=0x44030A00, name="Adreno (TM) 829"), # KGSL\n'
     '        GPUId(chip_id=0x44030a20, name="Adreno (TM) 829"), # KGSL\n'
 )
 
 A829_OLD_PROPS = (
-    "[a7xx_base, a7xx_gen3, a8xx_base, a8xx_gen2,\n"
+    "[a7xx_base, a7xx_gen3, a8xx_base, a8xx_gen2, a8xx_vpc_cache_med,\n"
     "         GPUProps(\n"
     "            shading_rate_matches_vk = True,  # TODO confirm this\n"
-    "            sysmem_vpc_bv_pos_buf_size = 24576,\n"
     "         )]"
 )
 A829_NEW_PROPS = (
-    "[a7xx_base, a7xx_gen3, a8xx_base, a8xx_gen2,\n"
+    "[a7xx_base, a7xx_gen3, a8xx_base, a8xx_gen2, a8xx_vpc_cache_med,\n"
     "         GPUProps(\n"
     "            shading_rate_matches_vk = True,  # TODO confirm this\n"
-    "            sysmem_vpc_bv_pos_buf_size = 24576,\n"
     "            disable_gmem = True,\n"
     "         )]"
 )
@@ -147,7 +143,6 @@ add_gpus([
         cs_shared_mem_size = 32 * 1024,
         wave_granularity = 2,
         fibers_per_sp = 128 * 2 * 16,
-        magic_regs = dict(),
         raw_magic_regs = a8xx_base_raw_magic_regs,
     ))
 """
@@ -160,7 +155,6 @@ else:
         print("  WARNING: cannot locate A810 anchor for A825 insertion", file=sys.stderr)
     else:
         A810_END_ANCHOR = (
-            "        magic_regs = dict(),\n"
             "        raw_magic_regs = a8xx_base_raw_magic_regs,\n"
             "    ))\n"
         )

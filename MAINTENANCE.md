@@ -90,8 +90,7 @@ The CI (`.github/workflows/build.yml`):
   mesa main advances on its own.
 - **`workflow_dispatch`** takes a `publish` input, default **false**. Either way the
   release is created with both zips and generated notes attached; `publish=false` creates
-  it as a **GitHub draft**, so no git tag exists until someone hits Publish, and the
-  WinNative-Components mirror is skipped. Re-running a draft build deletes the previous
+  it as a **GitHub draft**, so no git tag exists until someone hits Publish. Re-running a draft build deletes the previous
   draft for that tag first — GitHub allows several drafts to share a tag name, so without
   that they stack up. Only a publish is guarded against reusing a version, since only a
   publish is irreversible.
